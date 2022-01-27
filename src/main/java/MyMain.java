@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MyMain {
     // ********************
@@ -51,9 +52,16 @@ public class MyMain {
 
     // Tail Recursive Method:
     public static int sumTR(int[] arr, int i, int sum) {
-        // YOUR CODE HERE
-        return -1;
+        if (i == arr.length) {
+            return sum;
+        }
+        else if (arr[i]<arr.length){
+            return sumTR(arr, i+1, sum+arr[i]);
+        }
+        return sumTR(arr, i+1, sum+arr[i]);
     }
+
+
 
 
     // Write a method that uses recursion to search to see
@@ -68,14 +76,20 @@ public class MyMain {
     // search([7, 3, 2, 8, 2, 3, 4], 3) => true
 
     // Wrapper Method (Provided for you):
-    public static boolean search(ArrayList<Integer> list, int x) {
-        // YOUR CODE HERE
-        return false;
-    }
+    public static boolean search(ArrayList<Integer> list, int x) {return searchTR(list, x, 0);}
 
     // Tail Recursive Method:
     public static boolean searchTR(ArrayList<Integer> list, int x, int i) {
-        // YOUR CODE HERE
+        if (i>=list.size()){
+            return false;
+        }
+        if (list.get(i)==x){
+            return true;
+        }
+        else if (i<list.size()){
+            return searchTR(list, x,i+1);
+        }
+
         return false;
     }
 
@@ -88,13 +102,21 @@ public class MyMain {
     // allEven([7, 3, 2, 8, 2, 3, 4]) => false
 
     // Wrapper Method (Provided for you):
-    public static boolean allEven(int[] arr) {
-        // YOUR CODE HERE
-        return false;
-    }
+    public static boolean allEven(int[] arr) {return allEvenTR(arr, 0);}
 
     // Tail Recursive Method:
-    // You should write this yourself!
+    public static boolean allEvenTR(int[] arr, int i) {
+        if (i >= arr.length) {
+            return true;
+        }
+        if (arr[i] % 2 == 0) {
+            return allEvenTR(arr, i + 1);
+        } else if (arr[i] % 2 != 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 
     // ********************
@@ -135,12 +157,33 @@ public class MyMain {
     // count copies of the integer x
 
     // Wrapper method
-    public static boolean hasCountCopies(int[] arr, int x, int count) {
-        // YOUR CODE HERE
-        return false;
-    }
+    public static boolean hasCountCopies(int[] arr, int x, int count) {return hasCountCopiesTR(arr, x, count, 0, 0);}
 
     // You may want a tail recursive method
+    public static boolean hasCountCopiesTR(int[] arr, int x, int count, int i, int count2) {
+        if (i >= arr.length) {
+            if (count2 == count) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (arr[i] == x) {
+            return hasCountCopiesTR(arr, x, count, i + 1, count2 + 1);
+        }
+        else{
+            return hasCountCopiesTR(arr, x, count, i + 1, count2);
+        }
+
+    }
+
+
+
+
+
+
+
+
 
 
     // This recursive method checks if the array is sorted in
@@ -148,11 +191,19 @@ public class MyMain {
 
     // Wrapper method
     public static boolean isSorted(ArrayList<Integer> list) {
-        // YOUR CODE HERE
-        return false;
+        return isSortedTR(list, 0);
     }
 
-    // You may want a tail recursive method
+    public static boolean isSortedTR(ArrayList<Integer> list, int i) {
+        if (i == list.size()-1) {
+            return true;
+        }
+        if (list.get(i) <= list.get(i + 1)) {
+            return isSortedTR(list, i + 1);
+        } else {
+            return false;
+        }
+    }
 
 
 
@@ -183,7 +234,15 @@ public class MyMain {
 
     // No tail recursion necessary!
     public static boolean escape(char[][] mat, int row, int col) {
-        // YOUR CODE HERE
+        if (mat[row][row] == 'w') {
+            return false;
+        }
+        if (mat[row][row] == 'f') {
+            return true;
+        }
+        if (mat[row][col] == ' ' && mat[row][col + 1] == ' ' || mat[row][col] == ' ' && mat[row][col + 2] == ' ' || mat[row][col] == ' ' && mat[row][col - 1] == ' '
+                || mat[row][col] == ' ' && mat[row][col - 2] == ' ' || mat[row][col] == ' ' && mat[row + 1][col] == ' ' || mat[row][col] == ' ' && mat[row - 1][col] == ' ') {
+        }
         return false;
     }
 
@@ -191,9 +250,15 @@ public class MyMain {
 
 
 
-
     public static void main(String[] args) {
         // Optional: Write some code here to test your methods!
+//        System.out.println(sum(new int[]{1,2,3}));
+//        System.out.println(sum(new int[]{12,11,6}));
+//        System.out.println(hasCountCopies(new int[]{1,2,3}, 2, 1));
+        System.out.println(hasCountCopies(new int[]{1}, 1, 1));
+        System.out.println(hasCountCopies(new int[]{1}, 2, 1));
+
+
 
         // row coordinates:
         char[][] mat = {   {'w', 'w', ' ', 'w', 'w', 'w'},      // 0
