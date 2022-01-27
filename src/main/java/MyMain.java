@@ -234,18 +234,24 @@ public class MyMain {
 
     // No tail recursion necessary!
     public static boolean escape(char[][] mat, int row, int col) {
-        if (mat[row][row] == 'w') {
+        if (row < 0 || col < 0 || row >= mat.length || col >= mat[0].length) {
             return false;
-        }
-        if (mat[row][row] == 'f') {
+        } else if (mat[row][row] == 'w') {
+            return false;
+        } else if (mat[row][row] == '*') {
+            return false;
+        } else if (mat[row][row] == 'f') {
             return true;
-        }
-        if (mat[row][col] == ' ' && mat[row][col + 1] == ' ' || mat[row][col] == ' ' && mat[row][col + 2] == ' ' || mat[row][col] == ' ' && mat[row][col - 1] == ' '
-                || mat[row][col] == ' ' && mat[row][col - 2] == ' ' || mat[row][col] == ' ' && mat[row + 1][col] == ' ' || mat[row][col] == ' ' && mat[row - 1][col] == ' ') {
-        }
-        return false;
-    }
+        } else {
+            mat[row][col] = '*';
+            boolean b1 = escape(mat, row, col - 1);
+            boolean b2 = escape(mat, row - 1, col - 1);
+            boolean b3 = escape(mat, row, col + 1);
+            boolean b4 = escape(mat, row + 1, col + 1);
 
+            return (b1 || b2 || b3 || b4);
+        }
+    }
 
 
 
